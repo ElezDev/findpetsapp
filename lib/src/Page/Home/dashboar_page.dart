@@ -1,3 +1,4 @@
+import 'package:findpetapp/src/Utils/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:findpetapp/src/Services/auth_service.dart';
@@ -5,36 +6,118 @@ import 'package:findpetapp/src/Services/auth_service.dart';
 class DashboardPage extends StatelessWidget {
   final AuthService authService = Get.find<AuthService>();
 
+  DashboardPage({super.key});
+
+  // Simulación de datos
+  final List<Map<String, String>> featuredAnimals = [
+    {
+      'name': 'Perro Feliz',
+      'image':
+          'https://media.istockphoto.com/id/513133900/es/foto/oro-retriever-sentado-en-frente-de-un-fondo-blanco.jpg?s=612x612&w=0&k=20&c=0lRWImB8Y4p6X6YGt06c6q8I3AqBgKD-OGQxjLCI5EY=',
+      'details': 'Edad: 2 años\nRaza: Labrador',
+    },
+    {
+      'name': 'Gato Travieso',
+      'image':
+          'https://media.istockphoto.com/id/513133900/es/foto/oro-retriever-sentado-en-frente-de-un-fondo-blanco.jpg?s=612x612&w=0&k=20&c=0lRWImB8Y4p6X6YGt06c6q8I3AqBgKD-OGQxjLCI5EY=',
+      'details': 'Edad: 1 año\nRaza: Siames',
+    },
+    // Más animales
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Dashboard'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () async {
-              await authService.logout();
-              Get.offAllNamed('/login'); 
-            },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Sección: Adopciones de la Semana
+              Text('Adopciones de la Semana', style: titleGeneral(context)),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 300, // Altura fija para la sección
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: featuredAnimals.length,
+                  itemBuilder: (context, index) {
+                    final animal = featuredAnimals[index];
+                    return Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: const EdgeInsets.only(right: 10),
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(10)),
+                            child: Image.network(
+                              animal['image']!,
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  animal['name']!,
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  animal['details']!,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ButtonBar(
+                            alignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  // Acción para "Me gusta"
+                                },
+                                child: const Text('Me gusta'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  // Acción para "Compartir"
+                                },
+                                child: const Text('Compartir'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              // Sección: Mascotas Más Populares
+             
+            ],
           ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('¡Bienvenido al Dashboard!', style: TextStyle(fontSize: 24)),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                await authService.logout();
-                Get.offAllNamed('/login'); 
-              },
-              child: Text('Cerrar Sesión'),
-            ),
-          ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navegar a la pantalla de agregar nuevo animal
+          Get.toNamed('/add-animal');
+        },
+        child: const Icon(Icons.add),
+        tooltip: 'Agregar Animal',
       ),
     );
   }

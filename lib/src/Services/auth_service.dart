@@ -21,6 +21,7 @@ class AuthService extends GetxController {
       await prefs.setString('authToken', token!);
 
       isAuthenticated.value = true;
+      await fetchUserData();
     } catch (e) {
       print('Error: $e');
       isAuthenticated.value = false;

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 class MyDrawer extends StatelessWidget {
   final AuthService authService = Get.find<AuthService>();
 
+   MyDrawer({super.key});
+
    @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -13,28 +15,28 @@ class MyDrawer extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: const BoxDecoration(color: Colors.blue),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     authService.userData['name'] ?? 'Nombre de Usuario',
-                    style: TextStyle(color: Colors.white, fontSize: 24),
+                    style: const TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   Text(
                     authService.userData['email'] ?? 'Email',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ],
               ),
             ),
             ListTile(
-              title: Text('Perfil'),
+              title: const Text('Perfil'),
               onTap: () {
               },
             ),
             ListTile(
-              title: Text('Cerrar sesión'),
+              title: const Text('Cerrar sesión'),
               onTap: () {
                 authService.logout();
                 Get.offAllNamed('/login'); // Navega a la pantalla de login
