@@ -5,20 +5,6 @@ import 'package:findpetapp/src/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// class HomePage extends StatelessWidget {
-//   final AuthService authService = Get.put(AuthService());
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Obx(() {
-//       if (authService.isAuthenticated.value) {
-//         return DashboardScreen(); 
-//       } else {
-//         return LoginPage(); 
-//       }
-//     });
-//   }
-// }
 
 
 class HomePage extends StatelessWidget {

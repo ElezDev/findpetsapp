@@ -114,7 +114,7 @@ class DashboardPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navegar a la pantalla de agregar nuevo animal
-          Get.toNamed('/add-animal');
+          Get.toNamed('/newpet');
         },
         child: const Icon(Icons.add),
         tooltip: 'Agregar Animal',

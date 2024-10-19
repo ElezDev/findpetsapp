@@ -34,8 +34,6 @@ TextStyle smallitle(BuildContext context) {
   );
 }
 
-
-
 TextStyle smallitlefecha(BuildContext context) {
   final isDarkMode = Theme.of(context).brightness == Brightness.dark;
   return TextStyle(

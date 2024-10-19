@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:findpetapp/src/Services/onboarding_service.dart';
 
 class OnboardingPage extends StatefulWidget {
-  OnboardingPage({super.key});
+  const OnboardingPage({super.key});
 
   @override
   _OnboardingPageState createState() => _OnboardingPageState();

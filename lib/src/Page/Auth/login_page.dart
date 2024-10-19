@@ -167,10 +167,10 @@ class LoginPage extends StatelessWidget {
             child: const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const CircularProgressIndicator(
+                CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.pinkAccent),
                 ),
-                const SizedBox(width: 20),
+                SizedBox(width: 20),
                 Expanded(
                   child: Text(
                     "Iniciando sesión...",

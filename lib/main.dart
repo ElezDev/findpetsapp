@@ -1,13 +1,12 @@
 import 'package:findpetapp/src/Page/Auth/login_page.dart';
 import 'package:findpetapp/src/Page/Home/home_page.dart';
 import 'package:findpetapp/src/Page/Omboarding/onboarding_page.dart';
+import 'package:findpetapp/src/Page/PetsPost/new_pet_page.dart';
 import 'package:findpetapp/src/Services/auth_middleware.dart';
 import 'package:findpetapp/src/Services/auth_service.dart';
 import 'package:findpetapp/src/Services/onboarding_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,7 +44,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: '/',
-          page: () =>  HomePage(),
+          page: () => HomePage(),
           middlewares: [AuthMiddleware()],
         ),
         GetPage(
@@ -54,7 +53,11 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: '/onboarding',
-          page: () => OnboardingPage(),
+          page: () => const OnboardingPage(),
+        ),
+        GetPage(
+          name: '/newpet',
+          page: () => NewPetPage(),
         ),
       ],
       theme: ThemeData(
