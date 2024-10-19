@@ -1,5 +1,7 @@
 import 'package:findpetapp/src/Page/PetsPost/controllers/pet_post_controller.dart';
 import 'package:findpetapp/src/widgets/Seleccion_imagen_Modal.dart';
+import 'package:findpetapp/src/widgets/custom_app_bar.dart';
+import 'package:findpetapp/src/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -9,7 +11,15 @@ class NewPetPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Crear Publicación de Mascota')),
+      appBar: CustomAppBar(
+        title: 'Publicar Mascota',
+        actions: [
+          IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -30,18 +40,16 @@ class NewPetPage extends StatelessWidget {
                       onTap: () => _mostrarOpcionesImagen(context),
                       child: DottedBorder(
                         color: Colors.pinkAccent,
-                        
                         strokeWidth: 2,
                         dashPattern: [6, 3],
                         borderType: BorderType.RRect,
                         radius: const Radius.circular(12),
                         child: Container(
                           width: double.infinity,
-                          height: 180, 
+                          height: 180,
                           child: const Center(
                             child: Icon(Icons.add_a_photo,
-                                size: 60,
-                                color: Colors.pinkAccent), // Ícono más grande
+                                size: 60, color: Colors.pinkAccent),
                           ),
                         ),
                       ),
@@ -53,7 +61,7 @@ class NewPetPage extends StatelessWidget {
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 180, // Hacemos las imágenes más grandes
+                        height: 180,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           image: DecorationImage(
@@ -84,9 +92,11 @@ class NewPetPage extends StatelessWidget {
               );
             }),
             const SizedBox(height: 20),
-            ElevatedButton(
+            CustomButton(
+              text: 'Publicar', // Texto del botón
               onPressed: () {},
-              child: const Text('Publicar'),
+              backgroundColor: Colors.pinkAccent,
+              textColor: Colors.white,
             ),
           ],
         ),

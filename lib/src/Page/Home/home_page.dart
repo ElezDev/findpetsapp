@@ -5,12 +5,10 @@ import 'package:findpetapp/src/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
-
 class HomePage extends StatelessWidget {
   final AuthService authService = Get.put(AuthService());
 
-   HomePage({super.key});
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +16,12 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('FindPets'),
       ),
-      drawer:  MyDrawer(), 
+      drawer: MyDrawer(),
       body: Obx(() {
         if (authService.isAuthenticated.value) {
-         return  DashboardPage();  
+          return DashboardPage();
         } else {
-          return LoginPage(); 
+          return LoginPage();
         }
       }),
     );

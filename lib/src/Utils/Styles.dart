@@ -28,7 +28,7 @@ TextStyle smallitle(BuildContext context) {
   return TextStyle(
     color: isDarkMode ? Colors.pinkAccent : Colors.grey,
     fontFamily: 'Averta_Black',
-    fontSize: 15.0,
+    fontSize: 20.0,
     height: 1.5,
     letterSpacing: 0.5, // Ajusta el espaciado entre letras
   );
