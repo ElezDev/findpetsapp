@@ -15,7 +15,7 @@ class DashboardPage extends StatelessWidget {
       'image':
           'https://media.istockphoto.com/id/513133900/es/foto/oro-retriever-sentado-en-frente-de-un-fondo-blanco.jpg?s=612x612&w=0&k=20&c=0lRWImB8Y4p6X6YGt06c6q8I3AqBgKD-OGQxjLCI5EY=',
       'details': 'Edad: 2 años\nRaza: Labrador',
-    },
+    }, 
     {
       'name': 'Gato Travieso',
       'image':
@@ -23,6 +23,14 @@ class DashboardPage extends StatelessWidget {
       'details': 'Edad: 1 año\nRaza: Siames',
     },
     // Más animales
+  ];
+
+  final List<String> breeds = [
+    'Labrador',
+    'Siames',
+    'Bulldog',
+    'Poodle',
+    'Gato Persa'
   ];
 
   @override
@@ -34,6 +42,34 @@ class DashboardPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Sección: Filtro de Razas
+              Text('Filtrar por Raza', style: titleGeneral(context)),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 50,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: breeds.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Lógica para filtrar animales por raza
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: Text(breeds[index]),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+
               // Sección: Adopciones de la Semana
               Text('Adopciones de la Semana', style: titleGeneral(context)),
               const SizedBox(height: 10),
@@ -105,8 +141,36 @@ class DashboardPage extends StatelessWidget {
                 ),
               ),
 
-              // Sección: Mascotas Más Populares
-             
+              const SizedBox(height: 20),
+
+              // Sección: Noticias
+              Text('Noticias Recientes', style: titleGeneral(context)),
+              const SizedBox(height: 10),
+              Card(
+                elevation: 4,
+                child: ListTile(
+                  title: Text('Nueva campaña de adopción!'),
+                  subtitle: Text(
+                      '¡Adopta un amigo hoy! Visita nuestro sitio para más información.'),
+                  trailing: Icon(Icons.arrow_forward),
+                  onTap: () {
+                    // Navegar a la página de noticias
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              Card(
+                elevation: 4,
+                child: ListTile(
+                  title: Text('Consejos para el cuidado de mascotas'),
+                  subtitle: Text(
+                      'Aprende cómo cuidar mejor de tu nuevo amigo peludo.'),
+                  trailing: Icon(Icons.arrow_forward),
+                  onTap: () {
+                    // Navegar a la página de consejos
+                  },
+                ),
+              ),
             ],
           ),
         ),

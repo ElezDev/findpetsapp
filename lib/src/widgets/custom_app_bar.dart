@@ -1,11 +1,12 @@
-import 'package:findpetapp/src/Utils/Styles.dart';
 import 'package:flutter/material.dart';
+import 'package:findpetapp/src/Utils/Styles.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget>? actions;
   final Widget? leading;
   final Color? backgroundColor;
+  final bool hasDrawer; // Nueva propiedad para controlar si tiene Drawer
 
   const CustomAppBar({
     Key? key,
@@ -13,6 +14,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.leading,
     this.backgroundColor,
+    this.hasDrawer = false, // Por defecto, no tiene Drawer
   }) : super(key: key);
 
   @override
@@ -31,10 +33,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(title, style: smallitle(context)),
       centerTitle: true,
       leading: leading ??
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+          (hasDrawer
+              ? IconButton(
+                  icon:
+                      const Icon(Icons.menu_open_outlined, color: Colors.white),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                )
+              : IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: () => Navigator.of(context).pop(),
+                )),
       actions: actions,
     );
   }
