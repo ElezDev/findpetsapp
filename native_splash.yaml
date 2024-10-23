@@ -1,0 +1,17 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  
+  background_image: "assets/images/perro.png"
+  image: "assets/images/perro.png"
+  branding: "assets/images/perrp.png"
+
+  background_image_dark: "assets/images/perro.png"
+  image_dark: "assets/images/perro.png"
+ 
+
+  android_12:
+    color: "#FFFFFF"  
+    image: "assets/images/perro.png"
+   
