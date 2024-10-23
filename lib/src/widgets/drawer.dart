@@ -16,10 +16,10 @@ class MyDrawer extends StatelessWidget {
           children: <Widget>[
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue.shade700, // Fondo atractivo
+                color: Colors.blue.shade700, 
                 image: DecorationImage(
                   image: AssetImage(
-                      'assets/background_drawer.jpg'), // Fondo personalizado
+                      'assets/background_drawer.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -42,7 +42,7 @@ class MyDrawer extends StatelessWidget {
               leading: Icon(Icons.person, color: Colors.blue),
               title: const Text('Perfil'),
               onTap: () {
-                Get.toNamed('/profile'); // Navega a la pantalla de perfil
+                Get.toNamed('/profile');
               },
             ),
             ListTile(
@@ -50,7 +50,7 @@ class MyDrawer extends StatelessWidget {
               title: const Text('Configuración'),
               onTap: () {
                 Get.toNamed(
-                    '/settings'); // Navega a la pantalla de configuración
+                    '/settings');
               },
             ),
             Divider(),
@@ -59,7 +59,7 @@ class MyDrawer extends StatelessWidget {
               title: const Text('Cerrar sesión'),
               onTap: () {
                 authService.logout();
-                Get.offAllNamed('/login'); // Navega a la pantalla de login
+                Get.offAllNamed('/login'); 
               },
             ),
           ],

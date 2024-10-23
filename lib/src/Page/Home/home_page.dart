@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:findpetapp/src/Page/Auth/login_page.dart';
 import 'package:findpetapp/src/Page/Home/dashboard_page.dart';
+import 'package:findpetapp/src/Page/MapsPet/map_pet_page.dart';
 import 'package:findpetapp/src/Page/PetsPost/pets_swipe_page.dart';
 import 'package:findpetapp/src/Services/auth_service.dart';
 import 'package:findpetapp/src/widgets/custom_app_bar.dart';
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     DashboardPage(),
     PetsSwipePage(),
-    Center(child: Text('Perfil de Usuario')),
+    MapPetPage(),
   ];
 
   @override
@@ -55,7 +56,7 @@ class _HomePageState extends State<HomePage> {
         items: const [
           TabItem(icon: Icons.home, title: 'Inicio'),
           TabItem(icon: Icons.pets, title: 'Pest'),
-          TabItem(icon: Icons.person, title: 'Perfil'),
+          TabItem(icon: Icons.map_sharp, title: 'Maps'),
         ],
         initialActiveIndex: _currentIndex,
         onTap: (int index) {

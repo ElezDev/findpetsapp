@@ -1,5 +1,6 @@
 import 'package:findpetapp/src/Page/Auth/login_page.dart';
 import 'package:findpetapp/src/Page/Home/home_page.dart';
+import 'package:findpetapp/src/Page/MapsPet/map_pet_page.dart';
 import 'package:findpetapp/src/Page/Omboarding/onboarding_page.dart';
 import 'package:findpetapp/src/Page/PetsPost/new_pet_page.dart';
 import 'package:findpetapp/src/Page/PetsPost/pets_swipe_page.dart';
@@ -64,6 +65,12 @@ class MyApp extends StatelessWidget {
           name: '/petswipe',
           page: () => PetsSwipePage(),
         ),
+
+          GetPage(
+          name: '/mapPet',
+          page: () => MapPetPage(),
+        ),
+
       ],
       theme: ThemeData(
         useMaterial3: true,
