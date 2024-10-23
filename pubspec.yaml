@@ -47,6 +47,7 @@ dependencies:
   swipe_cards: ^2.0.0+1
   smooth_page_indicator: ^1.2.0+3
   flutter_native_splash: ^2.4.2
+  geolocator: ^13.0.1
 
 dev_dependencies:
   flutter_test:

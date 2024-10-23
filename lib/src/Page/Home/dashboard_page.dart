@@ -1,10 +1,13 @@
+import 'package:findpetapp/src/Page/Home/location_controller.dart';
 import 'package:findpetapp/src/Utils/Styles.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:findpetapp/src/Services/auth_service.dart';
 
 class DashboardPage extends StatelessWidget {
   final AuthService authService = Get.find<AuthService>();
+  final LocationController locationController = Get.put(LocationController());
 
   DashboardPage({super.key});
 
@@ -15,7 +18,7 @@ class DashboardPage extends StatelessWidget {
       'image':
           'https://media.istockphoto.com/id/513133900/es/foto/oro-retriever-sentado-en-frente-de-un-fondo-blanco.jpg?s=612x612&w=0&k=20&c=0lRWImB8Y4p6X6YGt06c6q8I3AqBgKD-OGQxjLCI5EY=',
       'details': 'Edad: 2 años\nRaza: Labrador',
-    }, 
+    },
     {
       'name': 'Gato Travieso',
       'image':
@@ -175,7 +178,6 @@ class DashboardPage extends StatelessWidget {
           ),
         ),
       ),
-      
     );
   }
 }

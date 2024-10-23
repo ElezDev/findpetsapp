@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:findpetapp/src/models/pet_model.dart'; 
+import 'package:findpetapp/src/models/pet_model.dart';
 import 'package:findpetapp/src/Page/PetsPost/controllers/pet_controller.dart';
 
 class PetsSwipePage extends StatelessWidget {
@@ -45,7 +45,7 @@ class PetsSwipePage extends StatelessWidget {
 
   Widget _buildPetCard(BuildContext context, Pet pet) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 25),
       child: Card(
         elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
