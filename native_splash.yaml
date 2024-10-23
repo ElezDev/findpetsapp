@@ -5,7 +5,7 @@ flutter_native_splash:
   
   background_image: "assets/images/perro.png"
   image: "assets/images/perro.png"
-  branding: "assets/images/perrp.png"
+  branding: "assets/images/perro.png"
 
   background_image_dark: "assets/images/perro.png"
   image_dark: "assets/images/perro.png"

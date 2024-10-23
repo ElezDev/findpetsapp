@@ -46,6 +46,7 @@ dependencies:
   convex_bottom_bar: ^3.2.0
   swipe_cards: ^2.0.0+1
   smooth_page_indicator: ^1.2.0+3
+  flutter_native_splash: ^2.4.2
 
 dev_dependencies:
   flutter_test:
