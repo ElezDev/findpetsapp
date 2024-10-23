@@ -62,4 +62,10 @@ class AuthService extends GetxController {
     token = null;
     userData.value = {};
   }
+
+    Future<String> getToken() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString('authToken') ?? '';
+  }
+
 }
