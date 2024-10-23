@@ -8,16 +8,22 @@ import 'package:findpetapp/src/Services/auth_middleware.dart';
 import 'package:findpetapp/src/Services/auth_service.dart';
 import 'package:findpetapp/src/Services/onboarding_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   final authService = Get.put(AuthService());
   final onboardingService = OnboardingService();
 
+  // Mueve la verificación de autenticación aquí, antes de remover el splash
   await authService.checkAuthentication();
   final shouldShowOnboarding = await onboardingService.shouldShowOnboarding();
+
+  // Una vez que todo esté listo, remueve el splash
+  FlutterNativeSplash.remove();
 
   String initialRoute;
 
@@ -31,6 +37,8 @@ void main() async {
 
   runApp(MyApp(initialRoute: initialRoute));
 }
+
+
 
 class MyApp extends StatelessWidget {
   final String initialRoute;
@@ -61,16 +69,14 @@ class MyApp extends StatelessWidget {
           name: '/newpet',
           page: () => NewPetPage(),
         ),
-          GetPage(
+        GetPage(
           name: '/petswipe',
           page: () => PetsSwipePage(),
         ),
-
-          GetPage(
+        GetPage(
           name: '/mapPet',
           page: () => MapPetPage(),
         ),
-
       ],
       theme: ThemeData(
         useMaterial3: true,
@@ -90,3 +96,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
