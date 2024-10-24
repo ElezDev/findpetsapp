@@ -10,8 +10,7 @@ import 'package:http/http.dart' as http;
 class PetPostController extends GetxController {
   final ImagePicker _picker = ImagePicker();
   var imagenes = <File>[].obs;
-  AuthService authService =
-      AuthService(); 
+  AuthService authService = AuthService();
   Future<void> seleccionarImagen(bool fromCamera) async {
     final pickedFile = await _picker.pickImage(
       source: fromCamera ? ImageSource.camera : ImageSource.gallery,
@@ -20,6 +19,7 @@ class PetPostController extends GetxController {
       imagenes.add(File(pickedFile.path));
     }
   }
+
   void eliminarImagen(int index) {
     imagenes.removeAt(index);
   }
@@ -37,7 +37,7 @@ class PetPostController extends GetxController {
   Future<void> publicarMascota(Map<String, dynamic> mascotaData) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse(Constants.pestUrl),
+      Uri.parse(Constants.petsUrl),
     );
     String token = await authService.getToken();
 
@@ -57,6 +57,8 @@ class PetPostController extends GetxController {
       var pic = await http.MultipartFile.fromPath('images[]', image.path);
       request.files.add(pic);
     }
+    print('Latitud: ${request.fields['latitude']}');
+    print('Longitud: ${request.fields['longitude']}');
 
     try {
       var response = await request.send();
