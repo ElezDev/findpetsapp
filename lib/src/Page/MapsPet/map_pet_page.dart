@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:geolocator/geolocator.dart';
 
 class MapPetPage extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class _MapPetPageState extends State<MapPetPage> {
   List<Pets> pets = []; // Lista para almacenar las mascotas
   BitmapDescriptor?
       myLocationIcon; // Icono personalizado para la ubicación actual
+  Set<Polyline> _polylines = {}; // Almacena las líneas dibujadas en el mapa
 
   @override
   void initState() {
@@ -51,12 +53,41 @@ class _MapPetPageState extends State<MapPetPage> {
 
   void _setCustomMarker() async {
     myLocationIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(50, 24)), // Tamaño del ícono
-      'assets/images/marcador1.png', // Ruta del ícono
+      ImageConfiguration(size: Size(110, 100)), // Tamaño del ícono
+      'assets/images/m4.png', // Ruta del ícono
     );
   }
 
-  void _showPetDetails(Pets pet) {
+  Future<double> _calculateDistance(LatLng start, LatLng end) async {
+    return Geolocator.distanceBetween(
+      start.latitude,
+      start.longitude,
+      end.latitude,
+      end.longitude,
+    );
+  }
+
+  void _showPetDetails(Pets pet) async {
+    final position = locationController.currentPosition.value!;
+    final LatLng currentLatLng = LatLng(position.latitude, position.longitude);
+    final petLatLng = LatLng(pet.latitude, pet.longitude);
+
+    // Calcular la distancia entre la ubicación actual y la de la mascota seleccionada
+    double distance = await _calculateDistance(currentLatLng, petLatLng);
+
+    // Añadir la línea entre la ubicación actual y la mascota
+    setState(() {
+      _polylines = {
+        Polyline(
+          polylineId: PolylineId(pet.id.toString()),
+          points: [currentLatLng, petLatLng],
+          color: Colors.blue,
+          width: 5,
+        ),
+      };
+    });
+
+    // Mostrar detalles de la mascota y la distancia en el modal
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -65,16 +96,23 @@ class _MapPetPageState extends State<MapPetPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(pet.name,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              Text(
+                pet.name,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 10),
-              pet.imageUrl != null
-                  ? Image.network(pet.imageUrl!, fit: BoxFit.cover)
-                  : Container(
-                      height: 150,
-                      color: Colors.grey[300],
-                      child: Center(child: Text('No Image Available'))),
+              // pet.imageUrl != null
+              //     ? Image.network(pet.imageUrl!, fit: BoxFit.cover)
+              //     : Container(
+              //         height: 150,
+              //         color: Colors.grey[300],
+              //         child: Center(child: Text('No Image Available')),
+              //       ),
               SizedBox(height: 10),
+              Text(
+                'Distancia: ${distance.toStringAsFixed(2)} metros',
+                style: TextStyle(fontSize: 16),
+              ),
             ],
           ),
         );
@@ -100,8 +138,7 @@ class _MapPetPageState extends State<MapPetPage> {
               markerId: MarkerId('currentLocation'),
               position: currentLatLng,
               infoWindow: InfoWindow(title: 'Estás aquí, $userName'),
-              icon: myLocationIcon ??
-                  BitmapDescriptor.defaultMarker, // Usa el ícono personalizado
+              icon: myLocationIcon ?? BitmapDescriptor.defaultMarker,
             ),
             // Agregar marcadores para cada mascota
             for (var pet in pets)
@@ -119,6 +156,7 @@ class _MapPetPageState extends State<MapPetPage> {
               zoom: 16,
             ),
             markers: markers,
+            polylines: _polylines,
             onMapCreated: (GoogleMapController controller) {
               if (_mapStyle != null) {
                 controller.setMapStyle(_mapStyle);
