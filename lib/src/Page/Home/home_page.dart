@@ -3,6 +3,7 @@ import 'package:findpetapp/src/Page/Auth/login_page.dart';
 import 'package:findpetapp/src/Page/Home/dashboard_page.dart';
 import 'package:findpetapp/src/Page/MapsPet/map_pet_page.dart';
 import 'package:findpetapp/src/Page/PetsPost/pets_swipe_page.dart';
+import 'package:findpetapp/src/Page/User/user_profile_page.dart';
 import 'package:findpetapp/src/Services/auth_service.dart';
 import 'package:findpetapp/src/widgets/custom_app_bar.dart';
 import 'package:findpetapp/src/widgets/drawer.dart';
@@ -23,7 +24,8 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     DashboardPage(),
      PetsSwipePage(),
-    const MapPetPage(),
+     const MapPetPage(),
+     UserProfilePage(),
   ];
 
   @override
@@ -57,6 +59,7 @@ class _HomePageState extends State<HomePage> {
           TabItem(icon: Icons.home, title: 'Inicio'),
           TabItem(icon: Icons.pets, title: 'Pest'),
           TabItem(icon: Icons.map_sharp, title: 'Maps'),
+          TabItem(icon: Icons.person, title: 'Mi Perfil'),
         ],
         initialActiveIndex: _currentIndex,
         onTap: (int index) {

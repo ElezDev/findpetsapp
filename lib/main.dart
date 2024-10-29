@@ -67,14 +67,19 @@ class MyApp extends StatelessWidget {
           name: '/newpet',
           page: () => NewPetPage(),
         ),
-        // GetPage(
-        //   name: '/petswipe',
-        //   page: () =>  PetsSwipePage(),
-        // ),
-        // GetPage(
-        //   name: '/mapPet',
-        //   page: () => const MapPetPage(),
-        // ),
+        GetPage(
+          name: '/petswipe',
+          page: () =>  PetsSwipePage(),
+        ),
+        GetPage(
+          name: '/mapPet',
+          page: () => const MapPetPage(),
+        ),
+      GetPage(
+          name: '/UserProfilePage',
+          page: () => const MapPetPage(),
+        ),
+       
       ],
       theme: ThemeData(
         useMaterial3: true,
