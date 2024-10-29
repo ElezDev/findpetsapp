@@ -1,3 +1,4 @@
+import 'package:findpetapp/src/Utils/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:findpetapp/src/Services/auth_service.dart';
 import 'package:get/get.dart';
@@ -28,6 +29,8 @@ class UserProfilePage extends StatelessWidget {
             const SizedBox(height: 20),
             _buildActionButtons(),
             const SizedBox(height: 20),
+            const SizedBox(height: 8),
+            _buildTiltle(context),
             _buildPetCarousel(),
           ],
         ),
@@ -90,6 +93,13 @@ class UserProfilePage extends StatelessWidget {
     );
   }
 
+  Widget _buildTiltle(context) {
+    return Text(
+      'Mis Post',
+      style: bigTitle(context),
+    );
+  }
+
   Widget _buildActionButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -128,7 +138,7 @@ class UserProfilePage extends StatelessWidget {
 
   Widget _buildPetCard(Pet pet) {
     return Container(
-      width: 150, // Ancho de cada tarjeta
+      width: 170, // Ancho de cada tarjeta
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Card(
         elevation: 4,
