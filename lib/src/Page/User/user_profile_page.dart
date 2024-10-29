@@ -1,19 +1,16 @@
+import 'package:findpetapp/src/Page/PetsPost/controllers/pet_controller.dart';
 import 'package:findpetapp/src/Utils/Styles.dart';
+import 'package:findpetapp/src/models/pet_model.dart';
 import 'package:flutter/material.dart';
 import 'package:findpetapp/src/Services/auth_service.dart';
 import 'package:get/get.dart';
 
 class UserProfilePage extends StatelessWidget {
   final AuthService authService = Get.find<AuthService>();
+  final PetController petController = Get.put(PetController());
 
   final String profileImageUrl = 'assets/images/usuario2.png';
   final String userBio = 'Lover of pets and nature. Always ready to help!';
-
-  final List<Pet> pets = [
-    Pet('Dog', 'Golden Retriever', 'assets/images/perro2.png'),
-    Pet('Cat', 'Persian', 'assets/images/perro.png'),
-    Pet('Rabbit', 'Holland Lop', 'assets/images/perros1.png'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +26,6 @@ class UserProfilePage extends StatelessWidget {
             const SizedBox(height: 20),
             _buildActionButtons(),
             const SizedBox(height: 20),
-            const SizedBox(height: 8),
             _buildTiltle(context),
             _buildPetCarousel(),
           ],
@@ -44,14 +40,14 @@ class UserProfilePage extends StatelessWidget {
       children: [
         Container(
           height: 200,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.pinkAccent,
             borderRadius:
                 const BorderRadius.vertical(bottom: Radius.circular(30)),
           ),
         ),
         Positioned(
-          top: 100,
+          top: 90,
           child: CircleAvatar(
             radius: 50,
             backgroundImage: AssetImage(profileImageUrl),
@@ -104,17 +100,15 @@ class UserProfilePage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildButton('Edit Profile', Icons.edit),
-        _buildButton('Settings', Icons.settings),
+        _buildButton('Editar Perfil', Icons.edit),
+        _buildButton('Llamar', Icons.phone_callback_rounded),
       ],
     );
   }
 
   Widget _buildButton(String title, IconData icon) {
     return ElevatedButton.icon(
-      onPressed: () {
-        // Lógica para cada botón
-      },
+      onPressed: () {},
       icon: Icon(icon),
       label: Text(title),
       style: ElevatedButton.styleFrom(
@@ -124,21 +118,26 @@ class UserProfilePage extends StatelessWidget {
   }
 
   Widget _buildPetCarousel() {
-    return Container(
-      height: 200, // Altura del carrusel
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: pets.length,
-        itemBuilder: (context, index) {
-          return _buildPetCard(pets[index]);
-        },
-      ),
-    );
+    return Obx(() {
+      if (petController.isLoading.value) {
+        return Center(child: CircularProgressIndicator());
+      }
+      return Container(
+        height: 200,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: petController.petsUser.length,
+          itemBuilder: (context, index) {
+            return _buildPetCard(petController.petsUser[index]);
+          },
+        ),
+      );
+    });
   }
 
   Widget _buildPetCard(Pet pet) {
     return Container(
-      width: 170, // Ancho de cada tarjeta
+      width: 170,
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Card(
         elevation: 4,
@@ -148,8 +147,8 @@ class UserProfilePage extends StatelessWidget {
             ClipRRect(
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.asset(
-                pet.imageUrl,
+              child: Image.network(
+                pet.images[0],
                 height: 100,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -172,13 +171,4 @@ class UserProfilePage extends StatelessWidget {
       ),
     );
   }
-}
-
-// Modelo de Mascota
-class Pet {
-  final String name;
-  final String breed;
-  final String imageUrl;
-
-  Pet(this.name, this.breed, this.imageUrl);
 }

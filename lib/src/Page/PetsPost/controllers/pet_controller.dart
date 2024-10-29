@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:findpetapp/src/Api/cosntants.dart';
+import 'package:findpetapp/src/Services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -7,24 +8,55 @@ import 'package:findpetapp/src/models/pet_model.dart';
 
 class PetController extends GetxController {
   var pets = <Pet>[].obs;
+  var petsUser = <Pet>[].obs;
+
   var isLoading = true.obs;
   var currentIndex = 0.obs;
-   var currentImageIndex = 0.obs;
+  var currentImageIndex = 0.obs;
+  AuthService authService = AuthService();
 
   @override
   void onInit() {
     loadPets();
+    loadPetsByUser();
     super.onInit();
   }
 
   Future<void> loadPets() async {
     try {
       isLoading(true);
-      final response = await http.get(Uri.parse(Constants.petsUrl)); 
+      final response = await http.get(Uri.parse(Constants.petsUrl));
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
         var loadedPets = data.map((json) => Pet.fromJson(json)).toList();
         pets.assignAll(loadedPets);
+      } else {
+        showOverlay("Error al cargar las mascotas", Colors.red);
+      }
+    } catch (e) {
+      showOverlay("Error de conexión: $e", Colors.red);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<void> loadPetsByUser() async {
+    String token = await authService.getToken();
+
+    try {
+      isLoading(true);
+      final response = await http.get(
+        Uri.parse(Constants.petByUser),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+        print(response.body);
+        var loadedPetsUser = data.map((json) => Pet.fromJson(json)).toList();
+        petsUser.assignAll(loadedPetsUser);
       } else {
         showOverlay("Error al cargar las mascotas", Colors.red);
       }

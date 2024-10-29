@@ -31,7 +31,6 @@ class Pet {
 
   });
 
-  // Método para convertir JSON a Pet
   factory Pet.fromJson(Map<String, dynamic> json) {
     return Pet(
       id: json['id'],
