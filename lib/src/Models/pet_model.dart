@@ -11,6 +11,8 @@ class Pet {
   final String latitude;
   final String longitude;
   final List<String> images;
+    final User user;
+
 
   Pet({
     required this.id,
@@ -25,6 +27,8 @@ class Pet {
     required this.latitude,
     required this.longitude,
     required this.images,
+    required this.user,
+
   });
 
   // Método para convertir JSON a Pet
@@ -42,6 +46,37 @@ class Pet {
       latitude: json['latitude'],
       longitude: json['longitude'],
       images: List<String>.from(json['images'].map((img) => img['image_url'])),
+            user: User.fromJson(json['user']),
+
     );
   }
 }
+class User {
+  final int id;
+  final String name;
+  final String email;
+  final DateTime? emailVerifiedAt;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  User({
+    required this.id,
+    required this.name,
+    required this.email,
+    this.emailVerifiedAt,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      name: json['name'],
+      email: json['email'],
+      emailVerifiedAt: json['email_verified_at'] != null ? DateTime.parse(json['email_verified_at']) : null,
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at']),
+    );
+  }
+}
+
