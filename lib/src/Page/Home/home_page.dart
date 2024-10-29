@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -22,8 +22,8 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     DashboardPage(),
-    PetsSwipePage(),
-    MapPetPage(),
+     PetsSwipePage(),
+    const MapPetPage(),
   ];
 
   @override

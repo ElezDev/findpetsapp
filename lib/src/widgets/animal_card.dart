@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AnimalCard extends StatelessWidget {
   final Map<String, String> animal;
 
-  const AnimalCard({Key? key, required this.animal}) : super(key: key);
+  const AnimalCard({super.key, required this.animal});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class AnimalCard extends StatelessWidget {
               ],
             ),
           ),
-          ButtonBar(
+          OverflowBar(
             alignment: MainAxisAlignment.center,
             children: [
               TextButton(

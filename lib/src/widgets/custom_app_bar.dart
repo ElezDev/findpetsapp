@@ -9,13 +9,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool hasDrawer; // Nueva propiedad para controlar si tiene Drawer
 
   const CustomAppBar({
-    Key? key,
+    super.key,
     required this.title,
     this.actions,
     this.leading,
     this.backgroundColor,
     this.hasDrawer = false, // Por defecto, no tiene Drawer
-  }) : super(key: key);
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(50.0);

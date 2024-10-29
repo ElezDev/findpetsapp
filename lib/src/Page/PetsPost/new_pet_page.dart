@@ -24,6 +24,8 @@ class NewPetPage extends StatelessWidget {
     'longitude': 0.0,
   };
 
+  NewPetPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +33,7 @@ class NewPetPage extends StatelessWidget {
         title: 'Publicar Mascota',
         actions: [
           IconButton(
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             onPressed: () {},
           ),
         ],
@@ -49,7 +51,7 @@ class NewPetPage extends StatelessWidget {
                   return GridView.builder(
                     shrinkWrap: true,
                     physics:
-                        NeverScrollableScrollPhysics(), // Desactiva el desplazamiento interno
+                        const NeverScrollableScrollPhysics(), // Desactiva el desplazamiento interno
                     itemCount: controller.imagenes.length + 1,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -64,7 +66,7 @@ class NewPetPage extends StatelessWidget {
                           child: DottedBorder(
                             color: Colors.pinkAccent,
                             strokeWidth: 2,
-                            dashPattern: [6, 3],
+                            dashPattern: const [6, 3],
                             borderType: BorderType.RRect,
                             radius: const Radius.circular(12),
                             child: Container(
@@ -79,7 +81,7 @@ class NewPetPage extends StatelessWidget {
                                     color: Colors.grey.withOpacity(0.2),
                                     spreadRadius: 1,
                                     blurRadius: 5,
-                                    offset: Offset(0,
+                                    offset: const Offset(0,
                                         3), // Cambiar la posición de la sombra
                                   ),
                                 ],
@@ -195,11 +197,11 @@ class NewPetPage extends StatelessWidget {
           labelText: label,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12), // Bordes redondeados
-            borderSide: BorderSide(color: Colors.pinkAccent),
+            borderSide: const BorderSide(color: Colors.pinkAccent),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
                 color: Colors.pinkAccent,
                 width: 2), // Bordes más gruesos al enfocar
           ),

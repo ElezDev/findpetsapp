@@ -9,6 +9,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:geolocator/geolocator.dart';
 
 class MapPetPage extends StatefulWidget {
+  const MapPetPage({super.key});
+
   @override
   _MapPetPageState createState() => _MapPetPageState();
 }
@@ -53,7 +55,7 @@ class _MapPetPageState extends State<MapPetPage> {
 
   void _setCustomMarker() async {
     myLocationIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(110, 100)), // Tamaño del ícono
+      const ImageConfiguration(size: Size(110, 100)), // Tamaño del ícono
       'assets/images/m4.png', // Ruta del ícono
     );
   }
@@ -98,9 +100,9 @@ class _MapPetPageState extends State<MapPetPage> {
             children: [
               Text(
                 pet.name,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               // pet.imageUrl != null
               //     ? Image.network(pet.imageUrl!, fit: BoxFit.cover)
               //     : Container(
@@ -108,10 +110,10 @@ class _MapPetPageState extends State<MapPetPage> {
               //         color: Colors.grey[300],
               //         child: Center(child: Text('No Image Available')),
               //       ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 'Distancia: ${distance.toStringAsFixed(2)} metros',
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
             ],
           ),
@@ -125,7 +127,7 @@ class _MapPetPageState extends State<MapPetPage> {
     return Scaffold(
       body: Obx(() {
         if (locationController.currentPosition.value == null) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else {
           final position = locationController.currentPosition.value!;
           final LatLng currentLatLng =
@@ -135,7 +137,7 @@ class _MapPetPageState extends State<MapPetPage> {
           // Crear un conjunto de marcadores
           Set<Marker> markers = {
             Marker(
-              markerId: MarkerId('currentLocation'),
+              markerId: const MarkerId('currentLocation'),
               position: currentLatLng,
               infoWindow: InfoWindow(title: 'Estás aquí, $userName'),
               icon: myLocationIcon ?? BitmapDescriptor.defaultMarker,

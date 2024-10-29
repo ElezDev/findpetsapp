@@ -6,10 +6,10 @@ class SeleccionImagenModal extends StatelessWidget {
   final VoidCallback onGallerySelected;
 
   const SeleccionImagenModal({
-    Key? key,
+    super.key,
     required this.onCameraSelected,
     required this.onGallerySelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

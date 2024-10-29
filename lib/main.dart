@@ -38,8 +38,6 @@ void main() async {
   runApp(MyApp(initialRoute: initialRoute));
 }
 
-
-
 class MyApp extends StatelessWidget {
   final String initialRoute;
 
@@ -54,7 +52,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: '/',
-          page: () => HomePage(),
+          page: () => const HomePage(),
           middlewares: [AuthMiddleware()],
         ),
         GetPage(
@@ -69,14 +67,14 @@ class MyApp extends StatelessWidget {
           name: '/newpet',
           page: () => NewPetPage(),
         ),
-        GetPage(
-          name: '/petswipe',
-          page: () => PetsSwipePage(),
-        ),
-        GetPage(
-          name: '/mapPet',
-          page: () => MapPetPage(),
-        ),
+        // GetPage(
+        //   name: '/petswipe',
+        //   page: () =>  PetsSwipePage(),
+        // ),
+        // GetPage(
+        //   name: '/mapPet',
+        //   page: () => const MapPetPage(),
+        // ),
       ],
       theme: ThemeData(
         useMaterial3: true,
@@ -96,5 +94,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

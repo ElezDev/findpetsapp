@@ -17,7 +17,7 @@ class MyDrawer extends StatelessWidget {
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue.shade700, 
-                image: DecorationImage(
+                image: const DecorationImage(
                   image: AssetImage(
                       'assets/background_drawer.jpg'),
                   fit: BoxFit.cover,
@@ -26,36 +26,36 @@ class MyDrawer extends StatelessWidget {
               currentAccountPicture: CircleAvatar(
                 backgroundImage: authService.userData['avatarUrl'] != null
                     ? NetworkImage(authService.userData['avatarUrl'])
-                    : AssetImage('assets/default_avatar.png') as ImageProvider,
+                    : const AssetImage('assets/default_avatar.png') as ImageProvider,
                 backgroundColor: Colors.white,
               ),
               accountName: Text(
                 authService.userData['name'] ?? 'Nombre de Usuario',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               accountEmail: Text(
                 authService.userData['email'] ?? 'Email',
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
             ),
             ListTile(
-              leading: Icon(Icons.person, color: Colors.blue),
+              leading: const Icon(Icons.person, color: Colors.blue),
               title: const Text('Perfil'),
               onTap: () {
                 Get.toNamed('/profile');
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings, color: Colors.blue),
+              leading: const Icon(Icons.settings, color: Colors.blue),
               title: const Text('Configuración'),
               onTap: () {
                 Get.toNamed(
                     '/settings');
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.logout, color: Colors.red),
+              leading: const Icon(Icons.logout, color: Colors.red),
               title: const Text('Cerrar sesión'),
               onTap: () {
                 authService.logout();

@@ -1,12 +1,15 @@
-// lib/src/Page/PetsPost/controllers/pet_controller.dart
-
+import 'dart:convert';
+import 'package:findpetapp/src/Api/cosntants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:findpetapp/src/models/pet_model.dart';
 
 class PetController extends GetxController {
   var pets = <Pet>[].obs;
+  var isLoading = true.obs;
   var currentIndex = 0.obs;
+   var currentImageIndex = 0.obs;
 
   @override
   void onInit() {
@@ -14,34 +17,22 @@ class PetController extends GetxController {
     super.onInit();
   }
 
-  void loadPets() {
-    var loadedPets = [
-      Pet(
-        name: 'Max',
-        breed: 'Golden Retriever',
-        imageUrl: 'assets/images/perros1.png',
-        description: 'Max es un cachorro adorable y juguetón',
-        age: '2 años',
-        location: 'Lima, Perú',
-      ),
-      Pet(
-        name: 'Bella',
-        breed: 'Labrador',
-        imageUrl: 'assets/images/perro2.png',
-        description: 'Bella es cariñosa y le encantan los abrazos',
-        age: '3 años',
-        location: 'Cusco, Perú',
-      ),
-      Pet(
-        name: 'Charlie',
-        breed: 'Beagle',
-        imageUrl: 'assets/images/perro.png',
-        description: 'Charlie es aventurero y siempre está feliz',
-        age: '1 año',
-        location: 'Arequipa, Perú',
-      ),
-    ];
-    pets.addAll(loadedPets);
+  Future<void> loadPets() async {
+    try {
+      isLoading(true);
+      final response = await http.get(Uri.parse(Constants.petsUrl)); 
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+        var loadedPets = data.map((json) => Pet.fromJson(json)).toList();
+        pets.assignAll(loadedPets);
+      } else {
+        showOverlay("Error al cargar las mascotas", Colors.red);
+      }
+    } catch (e) {
+      showOverlay("Error de conexión: $e", Colors.red);
+    } finally {
+      isLoading(false);
+    }
   }
 
   void showOverlay(String message, Color backgroundColor) {
@@ -55,14 +46,10 @@ class PetController extends GetxController {
       ),
       barrierDismissible: true,
     );
-
-    Future.delayed(Duration(seconds: 2), () {
-      Get.back(); // Cierra el diálogo después de 2 segundos
-    });
+    Future.delayed(Duration(seconds: 2), () => Get.back());
   }
 
   void likePet(Pet pet) {
-    print("Te gustó ${pet.name}");
     Get.snackbar(
       "¡Te gustó!",
       "${pet.name}",
@@ -74,7 +61,6 @@ class PetController extends GetxController {
   }
 
   void dislikePet(Pet pet) {
-    print("No te gustó ${pet.name}");
     Get.snackbar(
       "¡No te gustó!",
       "${pet.name}",

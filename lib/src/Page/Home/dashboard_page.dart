@@ -1,7 +1,6 @@
 import 'package:findpetapp/src/Page/Home/location_controller.dart';
 import 'package:findpetapp/src/Utils/Styles.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:findpetapp/src/Services/auth_service.dart';
 
