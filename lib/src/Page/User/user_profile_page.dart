@@ -24,7 +24,7 @@ class UserProfilePage extends StatelessWidget {
             const SizedBox(height: 20),
             _buildUserInfo(),
             const SizedBox(height: 20),
-            _buildActionButtons(),
+            _buildMainActionButtons(),
             const SizedBox(height: 20),
             _buildTiltle(context),
             _buildPetCarousel(),
@@ -42,8 +42,28 @@ class UserProfilePage extends StatelessWidget {
           height: 200,
           decoration: const BoxDecoration(
             color: Colors.pinkAccent,
-            borderRadius:
-                const BorderRadius.vertical(bottom: Radius.circular(30)),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+          ),
+        ),
+        Positioned(
+          top: 20,
+          right: 5,
+          child: PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'Editar Perfil') {}
+            },
+            itemBuilder: (BuildContext context) => [
+              const PopupMenuItem<String>(
+                value: 'Editar Perfil',
+                child: Text('Editar Perfil'),
+              ),
+            ],
+            icon: Image.asset(
+              'assets/images/tres-puntos.png',
+              width: 34,
+              height: 34,
+              color: Colors.white,
+            ),
           ),
         ),
         Positioned(
@@ -96,19 +116,20 @@ class UserProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildMainActionButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildButton('Editar Perfil', Icons.edit),
-        _buildButton('Llamar', Icons.phone_callback_rounded),
+        _buildButton('Llamar', Icons.phone_callback_rounded,
+            petController.makePhoneCall),
+        _buildButton('Conectar', Icons.connect_without_contact, () {}),
       ],
     );
   }
 
-  Widget _buildButton(String title, IconData icon) {
+  Widget _buildButton(String title, IconData icon, VoidCallback onPressed) {
     return ElevatedButton.icon(
-      onPressed: () {},
+      onPressed: onPressed,
       icon: Icon(icon),
       label: Text(title),
       style: ElevatedButton.styleFrom(
@@ -120,7 +141,7 @@ class UserProfilePage extends StatelessWidget {
   Widget _buildPetCarousel() {
     return Obx(() {
       if (petController.isLoading.value) {
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       }
       return Container(
         height: 200,

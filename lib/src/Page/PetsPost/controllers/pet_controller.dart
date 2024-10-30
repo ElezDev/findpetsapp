@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:findpetapp/src/models/pet_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PetController extends GetxController {
   var pets = <Pet>[].obs;
@@ -101,5 +102,26 @@ class PetController extends GetxController {
       backgroundColor: Colors.red,
       colorText: Colors.white,
     );
+  }
+
+    makePhoneCall() async {
+    const phoneNumber = 'tel:+573172231389';
+    try {
+      if (await canLaunchUrl(Uri.parse(phoneNumber))) {
+        await launchUrl(Uri.parse(phoneNumber));
+      } else {
+        Get.snackbar(
+          'Error',
+          'No se pudo realizar la llamada al número $phoneNumber',
+          snackPosition: SnackPosition.TOP,
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Ocurrió un problema al intentar realizar la llamada.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 }
