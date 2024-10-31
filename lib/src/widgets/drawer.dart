@@ -16,23 +16,26 @@ class MyDrawer extends StatelessWidget {
           children: <Widget>[
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue.shade700, 
+                color: Colors.blue.shade700,
                 image: const DecorationImage(
-                  image: AssetImage(
-                      'assets/background_drawer.jpg'),
+                  image: AssetImage('assets/background_drawer.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
               currentAccountPicture: CircleAvatar(
-                backgroundImage: authService.userData['avatarUrl'] != null
-                    ? NetworkImage(authService.userData['avatarUrl'])
-                    : const AssetImage('assets/default_avatar.png') as ImageProvider,
+                backgroundImage: authService.userData['persona'] != null &&
+                        authService.userData['persona'].isNotEmpty
+                    ? NetworkImage(
+                        authService.userData['persona'][0]['image_url'])
+                    : const AssetImage('assets/images/usuario2.png')
+                        as ImageProvider,
                 backgroundColor: Colors.white,
               ),
-              accountName: Text(
-                authService.userData['name'] ?? 'Nombre de Usuario',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+            accountName: Text(
+              '${authService.userData['persona'][0]['first_name'] ?? ''} ${authService.userData['persona'][0]['last_name'] ?? ''}'.trim(),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+
               accountEmail: Text(
                 authService.userData['email'] ?? 'Email',
                 style: const TextStyle(fontSize: 16),
@@ -49,8 +52,7 @@ class MyDrawer extends StatelessWidget {
               leading: const Icon(Icons.settings, color: Colors.blue),
               title: const Text('Configuración'),
               onTap: () {
-                Get.toNamed(
-                    '/settings');
+                Get.toNamed('/settings');
               },
             ),
             const Divider(),
@@ -59,7 +61,7 @@ class MyDrawer extends StatelessWidget {
               title: const Text('Cerrar sesión'),
               onTap: () {
                 authService.logout();
-                Get.offAllNamed('/login'); 
+                Get.offAllNamed('/login');
               },
             ),
           ],

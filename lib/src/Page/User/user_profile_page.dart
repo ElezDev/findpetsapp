@@ -9,9 +9,6 @@ class UserProfilePage extends StatelessWidget {
   final AuthService authService = Get.find<AuthService>();
   final PetController petController = Get.put(PetController());
 
-  final String profileImageUrl = 'assets/images/usuario2.png';
-  final String userBio = 'Lover of pets and nature. Always ready to help!';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,10 +64,15 @@ class UserProfilePage extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 90,
+          top: 9,
           child: CircleAvatar(
-            radius: 50,
-            backgroundImage: AssetImage(profileImageUrl),
+            radius: 90,
+            backgroundImage: authService.userData['persona'] != null &&
+                    authService.userData['persona'].isNotEmpty
+                ? NetworkImage(authService.userData['persona'][0]['image_url'])
+                : const AssetImage('assets/images/usuario2.png')
+                    as ImageProvider,
+            backgroundColor: Colors.white,
           ),
         ),
       ],
@@ -81,7 +83,8 @@ class UserProfilePage extends StatelessWidget {
     return Column(
       children: [
         Text(
-          authService.userData['name'] ?? 'Nombre de Usuario',
+          '${authService.userData['persona'][0]['first_name'] ?? ''} ${authService.userData['persona'][0]['last_name'] ?? ''}'
+              .trim(),
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -100,7 +103,7 @@ class UserProfilePage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
-            userBio,
+            authService.userData['persona'][0]['biography'] ?? 'No Biography',
             style: const TextStyle(fontSize: 16, color: Colors.black54),
             textAlign: TextAlign.center,
           ),
