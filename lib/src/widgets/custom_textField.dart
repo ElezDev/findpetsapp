@@ -8,7 +8,7 @@ Widget buildTextField({
   TextInputType keyboardType = TextInputType.text,
 }) {
   return Container(
-    margin: const EdgeInsets.symmetric(vertical: 8.0), 
+    margin: const EdgeInsets.symmetric(vertical: 8.0),
     decoration: BoxDecoration(
       color: Colors.grey[200],
       borderRadius: BorderRadius.circular(8.0),
@@ -38,13 +38,11 @@ Widget buildTextField({
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: const BorderSide(
-              color: Colors.blueAccent, width: 2.0),
+          borderSide: const BorderSide(color: Colors.blueAccent, width: 2.0),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(
-              color: Colors.grey.shade400, width: 1.0), 
+          borderSide: BorderSide(color: Colors.grey.shade400, width: 1.0),
         ),
       ),
     ),

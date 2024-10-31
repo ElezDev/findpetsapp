@@ -71,86 +71,89 @@ class AuthService extends GetxController {
     return pref.getString('authToken') ?? '';
   }
 
-  Future<void> register({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String password,
-    String? phoneNumber,
-    String? address,
-    String? biography,
-    String? imageUrl,
-  }) async {
-    try {
-      if (firstName.isEmpty ||
-          lastName.isEmpty ||
-          email.isEmpty ||
-          password.isEmpty) {
-        throw Exception('Todos los campos son obligatorios');
-      }
-    } catch (e) {
-      Get.snackbar(
-        'Error de Validación',
-        e.toString(),
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.redAccent,
-        colorText: Colors.white,
-      );
-      return;
+Future<bool> register({
+  required String firstName,
+  required String lastName,
+  required String email,
+  required String password,
+  String? phoneNumber,
+  String? address,
+  String? biography,
+  String? imageUrl,
+}) async {
+  try {
+    // Validación de campos obligatorios
+    if (firstName.isEmpty ||
+        lastName.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty) {
+      throw Exception('Todos los campos son obligatorios');
     }
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse(Constants.registerUrl),
+  } catch (e) {
+    Get.snackbar(
+      'Error de Validación',
+      e.toString(),
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.redAccent,
+      colorText: Colors.white,
     );
-    request.fields['first_name'] = firstName;
-    request.fields['last_name'] = lastName;
-    request.fields['email'] = email;
-    request.fields['password'] = password;
-    if (phoneNumber != null) request.fields['phone_number'] = phoneNumber;
-    if (address != null) request.fields['address'] = address;
-    if (biography != null) request.fields['biography'] = biography;
+    return false; // Retorna false si hay un error de validación
+  }
 
-    if (imageUrl != null) {
-      var file = await http.MultipartFile.fromPath('image_url', imageUrl);
-      request.files.add(file);
-    }
+  var request = http.MultipartRequest(
+    'POST',
+    Uri.parse(Constants.registerUrl),
+  );
+  request.fields['first_name'] = firstName;
+  request.fields['last_name'] = lastName;
+  request.fields['email'] = email;
+  request.fields['password'] = password;
+  if (phoneNumber != null) request.fields['phone_number'] = phoneNumber;
+  if (address != null) request.fields['address'] = address;
+  if (biography != null) request.fields['biography'] = biography;
 
-    try {
-      print('Datos enviados: ${request.fields}');
+  if (imageUrl != null) {
+    var file = await http.MultipartFile.fromPath('image_url', imageUrl);
+    request.files.add(file);
+  }
 
-      final response = await request.send();
+  try {
+    print('Datos enviados: ${request.fields}');
+    final response = await request.send();
+    final responseBody = await http.Response.fromStream(response);
+    print('Respuesta del servidor: ${responseBody.body}');
 
-      final responseBody = await http.Response.fromStream(response);
-      print('Respuesta del servidor: ${responseBody.body}');
-
-      if (responseBody.statusCode == 201) {
-        Get.snackbar(
-          'Registro Exitoso',
-          'Usuario registrado con éxito',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-      } else {
-        Get.snackbar(
-          'Error de Registro',
-          jsonDecode(responseBody.body)['message'] ??
-              'No se pudo completar el registro',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.redAccent,
-          colorText: Colors.white,
-        );
-      }
-    } catch (e) {
-      print('Error: $e');
+    if (responseBody.statusCode == 201) {
       Get.snackbar(
-        'Error',
-        'Hubo un problema al registrar al usuario. Inténtalo de nuevo.',
+        'Registro Exitoso',
+        'Usuario registrado con éxito',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+      return true; // Retorna true si el registro fue exitoso
+    } else {
+      Get.snackbar(
+        'Error de Registro',
+        jsonDecode(responseBody.body)['message'] ?? 'No se pudo completar el registro',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.redAccent,
         colorText: Colors.white,
       );
+      return false; // Retorna false si el registro falla
     }
+  } catch (e) {
+    print('Error: $e');
+    Get.snackbar(
+      'Error',
+      'Hubo un problema al registrar al usuario. Inténtalo de nuevo.',
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.redAccent,
+      colorText: Colors.white,
+    );
+    return false; // Retorna false si ocurre una excepción
   }
+}
+
   
 }

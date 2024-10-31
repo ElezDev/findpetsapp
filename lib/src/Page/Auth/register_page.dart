@@ -227,7 +227,9 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     showLoadingDialog(context);
-    await authService.register(
+
+    // Llamada al servicio de registro
+    bool registrationSuccess = await authService.register(
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -240,11 +242,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
     Navigator.of(context).pop();
 
-    if (authService.isAuthenticated.value) {
-      Get.offAllNamed('/');
+    // Verificamos si el registro fue exitoso
+    if (registrationSuccess) {
+      // Si el usuario está autenticado, navegar a la página de inicio de sesión
+      Get.offAllNamed('/login');
     } else {
       Get.snackbar(
-        'Error',
+        'Error de Registro',
         'No se pudo completar el registro',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.redAccent,
