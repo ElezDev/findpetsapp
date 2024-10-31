@@ -114,15 +114,15 @@ class LoginPage extends StatelessWidget {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    Get.snackbar(
-                      'UPPS',
-                      'Estamos trabajando en ello, pronto estará habilitado',
-                      snackPosition: SnackPosition.TOP,
-                      backgroundColor: Colors.red,
-                      colorText: Colors.white,
-                    );
+                    // Get.snackbar(
+                    //   'UPPS',
+                    //   'Estamos trabajando en ello, pronto estará habilitado',
+                    //   snackPosition: SnackPosition.TOP,
+                    //   backgroundColor: Colors.red,
+                    //   colorText: Colors.white,
+                    // );
 
-                    // Get.toNamed('/register');
+                    Get.toNamed('/register');
                   },
                   child: Text(
                     '¿No tienes una cuenta? Regístrate',

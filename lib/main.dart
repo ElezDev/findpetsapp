@@ -1,4 +1,5 @@
 import 'package:findpetapp/src/Page/Auth/login_page.dart';
+import 'package:findpetapp/src/Page/Auth/register_page.dart';
 import 'package:findpetapp/src/Page/Home/home_page.dart';
 import 'package:findpetapp/src/Page/MapsPet/map_pet_page.dart';
 import 'package:findpetapp/src/Page/Omboarding/onboarding_page.dart';
@@ -78,6 +79,10 @@ class MyApp extends StatelessWidget {
       GetPage(
           name: '/UserProfilePage',
           page: () => const MapPetPage(),
+        ),
+        GetPage(
+          name: '/register',
+          page: () =>  RegisterPage(),
         ),
        
       ],

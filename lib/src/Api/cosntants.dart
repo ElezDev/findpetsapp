@@ -5,5 +5,6 @@ class Constants {
   static const String userDataUrl = '$baseUrl/user_data';
   static const String petsUrl = '$baseUrl/pets';
   static const String petByUser = '$baseUrl/pets_by_user';
+  static const String registerUrl = '$baseUrl/register';
 }
 // 
