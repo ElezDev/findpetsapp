@@ -1,4 +1,6 @@
 import 'package:findpetapp/src/Api/cosntants.dart';
+import 'package:findpetapp/src/Page/Home/home_controller.dart';
+import 'package:findpetapp/src/Page/PetsPost/controllers/pet_controller.dart';
 import 'package:findpetapp/src/Services/auth_service.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,6 +13,7 @@ class PetPostController extends GetxController {
   final ImagePicker _picker = ImagePicker();
   var imagenes = <File>[].obs;
   AuthService authService = AuthService();
+
   Future<void> seleccionarImagen(bool fromCamera) async {
     final pickedFile = await _picker.pickImage(
       source: fromCamera ? ImageSource.camera : ImageSource.gallery,
@@ -24,7 +27,6 @@ class PetPostController extends GetxController {
     imagenes.removeAt(index);
   }
 
-  // Método para cambiar imagen
   Future<void> cambiarImagen(int index, bool fromCamera) async {
     final pickedFile = await _picker.pickImage(
       source: fromCamera ? ImageSource.camera : ImageSource.gallery,
@@ -52,32 +54,34 @@ class PetPostController extends GetxController {
     request.fields['adoption_status'] = mascotaData['adoption_status'];
     request.fields['latitude'] = mascotaData['latitude'].toString();
     request.fields['longitude'] = mascotaData['longitude'].toString();
-    print('token: ${token.toString()}');
+
     for (var image in imagenes) {
       var pic = await http.MultipartFile.fromPath('images[]', image.path);
       request.files.add(pic);
     }
-    print('Latitud: ${request.fields['latitude']}');
-    print('Longitud: ${request.fields['longitude']}');
 
     try {
       var response = await request.send();
-
-      print('Código de estado: ${response.statusCode}');
-
       var responseData = await response.stream.bytesToString();
-      print('Cuerpo de la respuesta: $responseData');
 
       if (response.statusCode == 201) {
         var jsonResponse = jsonDecode(responseData);
         Get.snackbar('Éxito', 'Mascota publicada: ${jsonResponse['id']}');
+
+        // Cambia la pestaña activa a PetsSwipePage
+        final homeController = Get.find<HomeController>();
+        homeController.changeTab(1); // Cambia a PetsSwipePage (índice 1)
+
+        // Llamar a loadPets del PetController para actualizar la lista
+        final petController = Get.find<PetController>();
+        await petController
+            .loadPets(); // Carga las mascotas después de publicar una nueva
       } else {
         var errorMessage = jsonDecode(responseData)['message'] ??
             'No se pudo publicar la mascota';
         Get.snackbar('Error', errorMessage);
       }
     } catch (e) {
-      print(e);
       Get.snackbar('Error', 'Ocurrió un error: $e');
     }
   }

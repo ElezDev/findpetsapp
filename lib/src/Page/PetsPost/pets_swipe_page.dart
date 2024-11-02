@@ -99,7 +99,7 @@ class PetsSwipePage extends StatelessWidget {
                           left: 10,
                           child: Row(
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                 radius: 20,
                                 backgroundImage:
                                     AssetImage('assets/images/usuario.png'),

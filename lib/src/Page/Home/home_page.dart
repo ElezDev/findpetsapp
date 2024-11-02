@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:findpetapp/src/Page/Auth/login_page.dart';
 import 'package:findpetapp/src/Page/Home/dashboard_page.dart';
+import 'package:findpetapp/src/Page/Home/home_controller.dart';
 import 'package:findpetapp/src/Page/MapsPet/map_pet_page.dart';
 import 'package:findpetapp/src/Page/PetsPost/pets_swipe_page.dart';
 import 'package:findpetapp/src/Page/User/user_profile_page.dart';
@@ -10,64 +11,48 @@ import 'package:findpetapp/src/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final AuthService authService = Get.put(AuthService());
-  int _currentIndex = 0;
-
-  final List<Widget> _pages = [
-    DashboardPage(),
-     PetsSwipePage(),
-     const MapPetPage(),
-     UserProfilePage(),
-  ];
-
-  @override
   Widget build(BuildContext context) {
+    final AuthService authService = Get.put(AuthService());
+    final HomeController homeController = Get.put(HomeController());
+    final List<Widget> pages = [
+      DashboardPage(),
+      PetsSwipePage(),
+      const MapPetPage(),
+      UserProfilePage(),
+    ];
+
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'FindPets',
-        backgroundColor: Theme.of(context).primaryColor,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
-        hasDrawer: true,
-      ),
-      drawer: MyDrawer(),
+     
       body: Obx(() {
         if (authService.isAuthenticated.value) {
-          return _pages[_currentIndex];
+          return pages[homeController
+              .currentIndex.value]; // Cambia la página según el índice
         } else {
           return LoginPage();
         }
       }),
-      bottomNavigationBar: ConvexAppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        activeColor: Colors.pinkAccent,
-        color: Colors.white,
-        style: TabStyle.react,
-        items: const [
-          TabItem(icon: Icons.home, title: 'Inicio'),
-          TabItem(icon: Icons.pets, title: 'Pest'),
-          TabItem(icon: Icons.map_sharp, title: 'Maps'),
-          TabItem(icon: Icons.person, title: 'Mi Perfil'),
-        ],
-        initialActiveIndex: _currentIndex,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
+      bottomNavigationBar: Obx(() => ConvexAppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            activeColor: Colors.pinkAccent,
+            color: Colors.white,
+            style: TabStyle.react,
+            items: const [
+              TabItem(icon: Icons.home, title: 'Inicio'),
+              TabItem(icon: Icons.pets, title: 'Pest'),
+              TabItem(icon: Icons.map_sharp, title: 'Maps'),
+              TabItem(icon: Icons.person, title: 'Mi Perfil'),
+            ],
+            initialActiveIndex: homeController.currentIndex.value,
+            onTap: (int index) {
+              homeController
+                  .changeTab(index); // Cambia el índice en el controlador
+              // Aquí no necesitas hacer más, el cuerpo se actualizará automáticamente
+            },
+          )),
     );
   }
 }

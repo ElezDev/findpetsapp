@@ -19,11 +19,11 @@ void main() async {
   final authService = Get.put(AuthService());
   final onboardingService = OnboardingService();
 
-  // Mueve la verificación de autenticación aquí, antes de remover el splash
+  // Verificación de autenticación
   await authService.checkAuthentication();
   final shouldShowOnboarding = await onboardingService.shouldShowOnboarding();
 
-  // Una vez que todo esté listo, remueve el splash
+  // Remover el splash
   FlutterNativeSplash.remove();
 
   String initialRoute;
@@ -70,34 +70,47 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: '/petswipe',
-          page: () =>  PetsSwipePage(),
+          page: () => PetsSwipePage(),
         ),
         GetPage(
           name: '/mapPet',
           page: () => const MapPetPage(),
         ),
-      GetPage(
+        GetPage(
           name: '/UserProfilePage',
           page: () => const MapPetPage(),
         ),
         GetPage(
           name: '/register',
-          page: () =>  RegisterPage(),
+          page: () => RegisterPage(),
         ),
-       
       ],
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF4563DB),
-          brightness: Brightness.light, // Tema claro
+        colorScheme: const ColorScheme(
+          primary: Color(0xFF2E4A62), // Azul grisáceo oscuro
+          onPrimary: Colors.white,
+          secondary: Color(0xFFE07A5F), // Coral profundo
+          onSecondary: Colors.white,
+          surface: Color(0xFFFFFFFF), // Blanco para superficies
+          onSurface: Colors.black87,
+          error: Color(0xFFD9534F), // Rojo quemado para errores
+          onError: Colors.white,
+          brightness: Brightness.light,
         ),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFB0006D),
-          brightness: Brightness.dark, // Tema oscuro
+        colorScheme: const ColorScheme(
+          primary: Color(0xFF2E4A62), // Azul grisáceo oscuro
+          onPrimary: Colors.white,
+          secondary: Color(0xFFE07A5F), // Coral profundo
+          onSecondary: Colors.white,
+          surface: Color(0xFF121212), // Superficie en gris oscuro
+          onSurface: Colors.white70,
+          error: Color(0xFFD9534F), // Rojo quemado
+          onError: Colors.white,
+          brightness: Brightness.dark,
         ),
       ),
       themeMode: ThemeMode.system,

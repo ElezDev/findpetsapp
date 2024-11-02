@@ -9,6 +9,8 @@ class UserProfilePage extends StatelessWidget {
   final AuthService authService = Get.find<AuthService>();
   final PetController petController = Get.put(PetController());
 
+  UserProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,7 +148,7 @@ class UserProfilePage extends StatelessWidget {
       if (petController.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
       }
-      return Container(
+      return SizedBox(
         height: 200,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,

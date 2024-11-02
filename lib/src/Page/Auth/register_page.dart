@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -122,10 +124,10 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Obx(
             () => DottedBorder(
               borderType: BorderType.RRect,
-              radius: Radius.circular(12),
+              radius: const Radius.circular(12),
               color: Colors.pinkAccent,
               strokeWidth: 2,
-              child: Container(
+              child: SizedBox(
                 width: 120,
                 height: 120,
                 child: Center(

@@ -1,180 +1,224 @@
-import 'package:findpetapp/src/Page/Home/location_controller.dart';
-import 'package:findpetapp/src/Utils/Styles.dart';
+import 'package:findpetapp/src/Utils/palette.dart';
+import 'package:findpetapp/src/Utils/stilos.dart';
+import 'package:findpetapp/src/widgets/app_bar_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:findpetapp/src/Services/auth_service.dart';
 
 class DashboardPage extends StatelessWidget {
-  final AuthService authService = Get.find<AuthService>();
-  final LocationController locationController = Get.put(LocationController());
-
   DashboardPage({super.key});
-
-  // Simulación de datos
-  final List<Map<String, String>> featuredAnimals = [
-    {
-      'name': 'Perro Feliz',
-      'image':
-          'https://media.istockphoto.com/id/513133900/es/foto/oro-retriever-sentado-en-frente-de-un-fondo-blanco.jpg?s=612x612&w=0&k=20&c=0lRWImB8Y4p6X6YGt06c6q8I3AqBgKD-OGQxjLCI5EY=',
-      'details': 'Edad: 2 años\nRaza: Labrador',
-    },
-    {
-      'name': 'Gato Travieso',
-      'image':
-          'https://media.istockphoto.com/id/513133900/es/foto/oro-retriever-sentado-en-frente-de-un-fondo-blanco.jpg?s=612x612&w=0&k=20&c=0lRWImB8Y4p6X6YGt06c6q8I3AqBgKD-OGQxjLCI5EY=',
-      'details': 'Edad: 1 año\nRaza: Siames',
-    },
-    // Más animales
-  ];
-
-  final List<String> breeds = [
-    'Labrador',
-    'Siames',
-    'Bulldog',
-    'Poodle',
-    'Gato Persa'
-  ];
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Sección: Filtro de Razas
-              Text('Filtrar por Raza', style: titleGeneral(context)),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 50,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: breeds.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Lógica para filtrar animales por raza
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: Text(breeds[index]),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 20),
+      appBar: CustomAppBars(),
+      body: CustomScrollView(
+        physics: ClampingScrollPhysics(),
+        slivers: <Widget>[
+          _buildHeader(screenHeight),
+          _buildPreventionTips(screenHeight),
+          _buildYourOwnTest(screenHeight),
+        ],
+      ),
+    );
+  }
 
-              // Sección: Adopciones de la Semana
-              Text('Adopciones de la Semana', style: titleGeneral(context)),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 300, // Altura fija para la sección
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: featuredAnimals.length,
-                  itemBuilder: (context, index) {
-                    final animal = featuredAnimals[index];
-                    return Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(10)),
-                            child: Image.network(
-                              animal['image']!,
-                              width: 150,
-                              height: 150,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  animal['name']!,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  animal['details']!,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ),
-                          ButtonBar(
-                            alignment: MainAxisAlignment.center,
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  // Acción para "Me gusta"
-                                },
-                                child: const Text('Me gusta'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  // Acción para "Compartir"
-                                },
-                                child: const Text('Compartir'),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
+  final prevention = [
+    {'assets/images/perro.png': 'Avoid close\ncontact'},
+    {'assets/images/perro.png': 'Clean your\nhands often'},
+    {'assets/images/perro.png': 'Wear a\nfacemask'},
+  ];
 
-              const SizedBox(height: 20),
-
-              // Sección: Noticias
-              Text('Noticias Recientes', style: titleGeneral(context)),
-              const SizedBox(height: 10),
-              Card(
-                elevation: 4,
-                child: ListTile(
-                  title: Text('Nueva campaña de adopción!'),
-                  subtitle: Text(
-                      '¡Adopta un amigo hoy! Visita nuestro sitio para más información.'),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    // Navegar a la página de noticias
-                  },
-                ),
-              ),
-              const SizedBox(height: 10),
-              Card(
-                elevation: 4,
-                child: ListTile(
-                  title: Text('Consejos para el cuidado de mascotas'),
-                  subtitle: Text(
-                      'Aprende cómo cuidar mejor de tu nuevo amigo peludo.'),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () {
-                    // Navegar a la página de consejos
-                  },
-                ),
-              ),
-            ],
+  SliverToBoxAdapter _buildHeader(double screenHeight) {
+    return SliverToBoxAdapter(
+      child: Container(
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Palette.primaryColor,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(40.0),
+            bottomRight: Radius.circular(40.0),
           ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'COVID-19',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: screenHeight * 0.03),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Are you feeling sick?',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.01),
+                Text(
+                  'If you feel sick with any COVID-19 symptoms, please call or text us immediately for help',
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 15.0,
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.03),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    TextButton.icon(
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 20.0,
+                        ),
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.phone,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        'Call Now',
+                        style: Styles.buttonTextStyle
+                            .copyWith(color: Colors.white),
+                      ),
+                    ),
+                    TextButton.icon(
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 20.0,
+                        ),
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.chat_bubble,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        'Send SMS',
+                        style: Styles.buttonTextStyle
+                            .copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _buildPreventionTips(double screenHeight) {
+    return SliverToBoxAdapter(
+      child: Container(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Prevention Tips',
+              style: const TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: prevention
+                  .map((e) => Column(
+                        children: <Widget>[
+                          Image.asset(
+                            e.keys.first,
+                            height: screenHeight * 0.12,
+                          ),
+                          SizedBox(height: screenHeight * 0.015),
+                          Text(
+                            e.values.first,
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ))
+                  .toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _buildYourOwnTest(double screenHeight) {
+    return SliverToBoxAdapter(
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 20.0,
+        ),
+        padding: const EdgeInsets.all(10.0),
+        height: screenHeight * 0.15,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFAD9FE4), Palette.primaryColor],
+          ),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Image.asset('assets/images/perros1.png'),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Do your own test!',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.01),
+                Text(
+                  'Follow the instructions\nto do your own test.',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.0,
+                  ),
+                  maxLines: 2,
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

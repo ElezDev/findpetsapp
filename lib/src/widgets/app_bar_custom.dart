@@ -1,0 +1,27 @@
+import 'package:findpetapp/src/Utils/palette.dart';
+import 'package:flutter/material.dart';
+
+class CustomAppBars extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      backgroundColor: Palette.primaryColor,
+      elevation: 0.0,
+      leading: IconButton(
+        icon: const Icon(Icons.menu),
+        iconSize: 28.0,
+        onPressed: () {},
+      ),
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.notifications_none),
+          iconSize: 28.0,
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}

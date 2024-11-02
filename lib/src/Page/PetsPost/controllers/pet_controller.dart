@@ -74,20 +74,20 @@ class PetController extends GetxController {
         backgroundColor: backgroundColor,
         content: Text(
           message,
-          style: TextStyle(color: Colors.white, fontSize: 20),
+          style: const TextStyle(color: Colors.white, fontSize: 20),
         ),
       ),
       barrierDismissible: true,
     );
-    Future.delayed(Duration(seconds: 2), () => Get.back());
+    Future.delayed(const Duration(seconds: 2), () => Get.back());
   }
 
   void likePet(Pet pet) {
     Get.snackbar(
       "¡Te gustó!",
-      "${pet.name}",
+      pet.name,
       snackPosition: SnackPosition.TOP,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
       backgroundColor: Colors.green,
       colorText: Colors.white,
     );
@@ -96,9 +96,9 @@ class PetController extends GetxController {
   void dislikePet(Pet pet) {
     Get.snackbar(
       "¡No te gustó!",
-      "${pet.name}",
+      pet.name,
       snackPosition: SnackPosition.TOP,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
       backgroundColor: Colors.red,
       colorText: Colors.white,
     );
